@@ -1,0 +1,22 @@
+{
+  "configurations": {
+    "Java Attach": {
+      "default": true,
+      "adapter": "vscode-java",
+      "configuration": {
+        "request": "attach",
+        "host": "127.0.0.1",
+        "port": "5005",
+        "sourcePaths":[
+          "${workspaceRoot}/gradle/repository"
+        ]
+      },
+      "breakpoints": {
+        "exception": {
+          "caught": "N",
+          "uncaught": "N"
+        }
+      }
+    }
+  }
+}

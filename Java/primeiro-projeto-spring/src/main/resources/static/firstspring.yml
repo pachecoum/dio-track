@@ -1,0 +1,46 @@
+components:
+  schemas:
+    FieldValidation:
+      type: object
+      properties:
+        "[fieldName]":
+          type: string
+          example: validation message
+        path:
+          type: stiring
+          example: "/path?param=query"
+    UpdateUser:
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          example: 1
+      allOf:
+        - $ref: '#/components/schemas/NewUser'
+    NewUser:
+      required: 
+        - name
+        - username
+      type: object
+      properties:
+        name: 
+          type: string
+          example: My Name
+        username:
+          type: string
+          example: myname
+        address:
+          type: object
+          required: 
+            - cep
+          properties:
+            cep:
+              type: string
+              example: '01001000'
+              minLenght: 6
+              maxLenght: 6
+
+
+
+
