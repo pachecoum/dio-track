@@ -1,13 +1,13 @@
 package com.primeiro.spring.repository;
 
 
-import org.springframework.data.repository.CrudRepository;
-
 import com.primeiro.spring.model.Address;
 
-public interface AddressRepository extends CrudRepository<Address, String> {
-	
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
+@Repository
+public interface AddressRepository extends CrudRepository<Address, String> {
 }
 
 

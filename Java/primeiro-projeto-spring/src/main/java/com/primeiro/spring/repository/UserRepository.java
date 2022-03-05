@@ -1,11 +1,13 @@
 package com.primeiro.spring.repository;
 
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.primeiro.spring.model.User;
 
+@Repository
 public interface UserRepository extends CrudRepository<User, Long> {
 
 	@Query("SELECT CASE WHEN (count(u) > 0) THEN true ELSE false end  FROM users u WHERE u.id <> :id and u.username = :username")

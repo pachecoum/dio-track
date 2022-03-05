@@ -1,18 +1,18 @@
 package com.primeiro.spring.model;
 
 import java.util.List;
+import java.util.Objects;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.validation.constraints.Pattern;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-
-import javax.persistence.Id;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.OneToMany;
 
 @Entity(name = "addresses")
 @Table(name = "addresses")
@@ -46,6 +46,66 @@ public class Address {
 	@OneToMany(mappedBy = "address")
 	@JsonIgnore
 	private List<User> users;
+	
+	public Address(){ }
+	
+	public Address(String cep){
+		this.cep = cep;
+	}
+
+	public Address(Address address){
+		this(
+				address.getCep(), 
+				address.getLogradouro(), 
+				address.getComplemento(),
+				address.getBairro(),
+				address.getLocalidade(),
+				address.getUf(),
+				address.getDdd()
+				);
+	}
+
+	public Address(String cep,String logradouro,String complemento,String bairro,String localidade, String uf,String ddd) {
+		this.cep = cep;
+		this.logradouro = logradouro;
+		this.complemento = complemento;
+		this.bairro = bairro;
+		this.localidade = localidade;
+		this.uf = uf;
+		this.ddd = ddd;
+	}
+
+
+	@Override
+	public int hashCode() {
+		int hash = 7;
+		hash = 31 * hash + (cep == null? 0 : cep.hashCode());
+		hash = 31 * hash + (logradouro == null? 0 : logradouro.hashCode());
+		hash = 31 * hash + (complemento == null? 0 : complemento.hashCode());
+		hash = 31 * hash + (bairro == null? 0 : bairro.hashCode());
+		hash = 31 * hash + (localidade == null? 0 : localidade.hashCode());
+		hash = 31 * hash + (uf == null? 0 : uf.hashCode());
+		hash = 31 * hash + (ddd == null? 0 : ddd.hashCode());
+		hash = 31 * hash + (users == null? 0 : users.hashCode());
+
+		// or
+		hash *= Objects.hash(cep, logradouro, complemento, bairro, localidade, uf, ddd, users);
+
+		return hash;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (o == this) return true;
+		if (o == null) return false;
+		if (this.getClass() != o.getClass()) return false;
+
+		Address address = (Address)o;
+		return cep.equals(address.getCep()) && logradouro.equals(address.getLogradouro()) 
+			&& complemento.equals(address.getComplemento()) && bairro.equals(address.getBairro())
+			&& localidade.equals(address.getLocalidade()) && uf.equals(address.getUf())
+			&& ddd.equals(address.getDdd());
+	}
 
 	/**
 	 * Get users 

@@ -1,5 +1,7 @@
 package com.primeiro.spring.model;
 
+import java.util.Objects;
+
 import javax.persistence.Column;
 import javax.persistence.Table;
 import javax.persistence.Entity;
@@ -34,6 +36,29 @@ public class User{
     @JoinColumn(name = "address_cep")
     private Address address;
 
+	public User(){}
+
+    public User(User user){
+        this(user.getName(), user.getUsername());
+    }
+
+    public User(Long id, String name,String username){
+        this(name, username);
+        this.id = id;
+    }
+
+    public User(String name,String username){
+        this.name = name;
+        this.username = username;
+    }
+
+
+    public User(String name,String username, Address address){
+        this.name = name;
+        this.username = username;
+        this.address = address;
+    }
+
     public Address getAddress() {
         return address;
     }
@@ -42,6 +67,30 @@ public class User{
         this.address = address;
     }
 
+	@Override
+	public int hashCode() {
+		int hash = 7;
+		hash = 31 * hash + (id == null? 0 : id.hashCode());
+		hash = 31 * hash + (name == null? 0 : name.hashCode());
+		hash = 31 * hash + (username == null? 0 : username.hashCode());
+		hash = 31 * hash + (address == null? 0 : address.hashCode());
+
+		// or
+		hash *= Objects.hash(id, name, username, address);
+
+		return hash;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (o == this) return true;
+		if (o == null) return false;
+		if (this.getClass() != o.getClass()) return false;
+
+		User user = (User)o;
+        return id.equals(user.getId()) && name.equals(user.getName()) 
+            && username.equals(user.getUsername()) && (address == null ? address == user.getAddress(): address.equals(user.getAddress()));
+	}
     /**
      * Get id
      *

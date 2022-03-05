@@ -1,0 +1,50 @@
+[
+    {
+    "cep": "01001-000",
+    "logradouro": "Praça da Sé",
+    "complemento": "lado ímpar",
+    "bairro": "Sé",
+    "localidade": "São Paulo",
+    "uf": "SP",
+    "ibge": "3550308",
+    "gia": "1004",
+    "ddd": "11",
+    "siafi": "7107"
+    },
+	{
+	  "cep": "64255-000",
+	  "logradouro": "",
+	  "complemento": "",
+	  "bairro": "",
+	  "localidade": "Pedro II",
+	  "uf": "PI",
+	  "ibge": "2207900",
+	  "gia": "",
+	  "ddd": "86",
+	  "siafi": "1157"
+	},
+	{
+	  "cep": "62220-000",
+	  "logradouro": "",
+	  "complemento": "",
+	  "bairro": "",
+	  "localidade": "Poranga",
+	  "uf": "CE",
+	  "ibge": "2311009",
+	  "gia": "",
+	  "ddd": "88",
+	  "siafi": "1521"
+	},
+	{
+		"cep": "62010-015",
+		"logradouro": "Rua Tabelião Ildefonso Cavalcante",
+		"complemento": "lado ímpar",
+		"bairro": "Centro",
+		"localidade": "Sobral",
+		"uf": "CE",
+		"ibge": "2312908",
+		"gia": "",
+		"ddd": "88",
+		"siafi": "1559"
+	}
+]

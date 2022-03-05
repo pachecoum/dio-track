@@ -14,7 +14,7 @@ import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
 
 @SpringBootApplication
-@EnableFeignClients
+@EnableFeignClients(basePackages = {"com.primeiro.spring.extern"})
 public class Application {
 
 	public static void main(String[] args) {

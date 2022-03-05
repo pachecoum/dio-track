@@ -1,14 +1,17 @@
 package com.primeiro.spring.service;
 
+import java.util.List;
+import java.util.ArrayList;
+
 import com.primeiro.spring.repository.UserRepository;
 import com.primeiro.spring.repository.AddressRepository;
 import com.primeiro.spring.model.User;
 import com.primeiro.spring.model.Address;
 import com.primeiro.spring.extern.ViaCepClient;
 import com.primeiro.spring.exception.UserNotFoundException;
+
 import com.primeiro.spring.exception.AddressNotFoundException;
 import com.primeiro.spring.exception.UsernameIsUsedException;
-import com.primeiro.spring.exception.NotImplementedException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,8 +28,7 @@ public class UserService implements IUserService {
 	@Autowired
 	AddressRepository addressRepository;
 
-	private Address validateAddress(User user) {
-
+	Address validateAddress(User user) {
 		return  addressRepository.findById(user.getAddress().getCep()).orElseGet(() -> {
 			Address newAddress = viaCepClient.getCep(user.getAddress().getCep());	
 			if(newAddress.getCep() == null)
@@ -50,16 +52,15 @@ public class UserService implements IUserService {
 		return userRepository.save(user);	
 	}
 	
-	public Iterable<User> getAllUser() {
-		return userRepository.findAll();
+	public List<User> getAllUser() {
+		List<User> users = new ArrayList<User>();
+		userRepository.findAll().iterator().forEachRemaining(users::add);
+			
+		return users;
 	}
 
 	public User getUserById(Long id) {
 		return userRepository.findById(id).orElseThrow(() -> new UserNotFoundException());
-	}
-
-	public User getUserByUsername(Long username) {
-		throw new NotImplementedException();
 	}
 
 	public void deleteUserById(Long id) {
@@ -72,29 +73,5 @@ public class UserService implements IUserService {
 		}
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 

@@ -1,6 +1,8 @@
 package com.primeiro.spring.service;
 
-import java.lang.Iterable;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 import com.primeiro.spring.model.Address;
 import com.primeiro.spring.repository.AddressRepository;
@@ -20,8 +22,8 @@ public class AddressService implements IAddressService {
 		return addressRepository.save(address);
 	}
 	
-	public Iterable<Address> getAllAdress() {
-		return addressRepository.findAll();
+	public List<Address> getAllAdress() {
+		return StreamSupport.stream(addressRepository.findAll().spliterator(), false).collect(Collectors.toList());
 	}
 
 	public Address getAddressByCep(String cep) {

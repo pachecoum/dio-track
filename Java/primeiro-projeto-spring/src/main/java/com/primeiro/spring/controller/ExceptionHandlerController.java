@@ -25,7 +25,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
 @ControllerAdvice
-public class ControllerExceptionHandler {
+public class ExceptionHandlerController{
 
 	@ExceptionHandler({ UsernameIsUsedException.class })
 	@ApiResponse(responseCode = "400", description = "Bad request", content = {

@@ -17,6 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -81,7 +82,7 @@ public class UserController {
 	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Success operation", content = @Content) })
 	@DeleteMapping("/{id}")
 	@ResponseStatus(HttpStatus.OK)
-	public void deleteUserById(@NotNull @NotBlank @Param("id") final Long id) {
+	public void deleteUserById(@NotNull @NotBlank @PathVariable("id") final Long id) {
 		userService.deleteUserById(id);
 	}
 
@@ -90,7 +91,7 @@ public class UserController {
 			@Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = UserWithAddressDTO.class)) }) })
 	@GetMapping("/{id}")
 	@ResponseStatus(HttpStatus.OK)
-	public UserWithAddressDTO getUserById(@NotNull @NotBlank @Param("id") final Long id) {
+	public UserWithAddressDTO getUserById(@NotNull @NotBlank @PathVariable("id") final Long id) {
 		return UserWithAddressDTO.fromEntity(userService.getUserById(id));
 	}
 
@@ -102,7 +103,7 @@ public class UserController {
 	@ResponseStatus(HttpStatus.OK)
 	public List<UserWithAddressDTO> getUsers() {
 		List<UserWithAddressDTO> usersDto = new ArrayList<UserWithAddressDTO>();
-		Iterable<User> users = userService.getAllUser();
+		List<User> users = userService.getAllUser();
 
 		for (User u : users) {
 			usersDto.add(UserWithAddressDTO.fromEntity(u));

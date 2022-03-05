@@ -1,5 +1,6 @@
 package com.primeiro.spring.dto;
 
+import java.util.Objects;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -26,14 +27,38 @@ public class UserDTO{
 	private Long id;
 
     @JsonProperty("name")
-    @NotNull(message = "This field is not null")
+    @NotNull(message = "This field must be not null")
     @Size(min = 2, max = 50, message = "Size must be between 2 and 50.")
 	private String name;
 
     @JsonProperty("username")
-    @NotNull(message = "This field is not null")
+    @NotNull(message = "This field must be not null")
     @Size(min = 2, max = 50, message = "Size must be between 2 and 50.")
 	private String username;
+
+	@Override
+	public int hashCode() {
+		int hash = 7;
+		hash = 31 * hash + (id == null? 0 : id.hashCode());
+		hash = 31 * hash + (name == null? 0 : name.hashCode());
+		hash = 31 * hash + (username == null? 0 : username.hashCode());
+
+		// or
+		hash *= Objects.hash(id, name, username);
+
+		return hash;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (o == this) return true;
+		if (o == null) return false;
+		if (o instanceof UserDTO) return false;
+
+		UserDTO user = (UserDTO)o;
+        return id.equals(user.getId()) && name.equals(user.getName()) 
+            && username.equals(user.getUsername());
+	}
 
 	public static UserDTO fromEntity(User user) {
 		UserDTO userDto = modelMapper.map(user, UserDTO.class);

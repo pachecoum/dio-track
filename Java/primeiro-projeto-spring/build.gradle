@@ -7,25 +7,82 @@ plugins {
 }
 
 group = 'com.primeiro'
-version = '0.0.1-SNAPSHOT'
+version = '1.0.0-SNAPSHOT'
 sourceCompatibility = '17'
 
 repositories {
 	mavenCentral()
 }
 
+configurations {
+	toCopy
+}
+
+
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springdoc:springdoc-openapi-ui:1.6.6'
 	implementation 'org.modelmapper.extensions:modelmapper-spring:3.0.0'
-	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign:3.1.0'
+	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign:3.1.1'
 	implementation 'org.springframework.boot:spring-boot-starter-validation:2.6.3'
+	implementation 'org.junit.platform:junit-platform-console-standalone:1.8.2'
 	runtimeOnly 'com.h2database:h2'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
+	//Test
+	testImplementation "com.github.tomakehurst:wiremock-jre8:2.32.0"
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'com.github.javafaker:javafaker:1.0.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
+	testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
+	testImplementation 'org.mockito:mockito-core:4.3.1'
 }
+
+
+tasks.register("download", Copy) {
+	from sourceSets.main.runtimeClasspath
+		into 'libs'
+}
+
+task copyJavadocsAndSources {
+inputs.files configurations.runtimeClasspath
+	outputs.dir "libs"
+	doLast {
+		def componentIds = configurations.runtimeClasspath.incoming.resolutionResult.allDependencies.collect { it.selected.id  }
+		ArtifactResolutionResult result = dependencies.createArtifactResolutionQuery()
+			.forComponents(componentIds)
+			.withArtifacts(JvmLibrary, SourcesArtifact, JavadocArtifact)
+			.execute()
+			def sourceArtifacts = []
+			result.resolvedComponents.each { ComponentArtifactsResult component ->
+				Set<ArtifactResult> sources = component.getArtifacts(SourcesArtifact)
+					println "Found ${sources.size()} sources for ${component.id}"
+					sources.each { ArtifactResult ar ->
+						if (ar instanceof ResolvedArtifactResult) {
+							sourceArtifacts << ar.file
+						}
+					}
+			}
+
+		copy {            
+			from sourceArtifacts
+				into "jpackages"
+		}
+
+	}
+} 
+
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+test {
+	testLogging {
+		events "PASSED", "SKIPPED", "FAILED",  "STANDARD_ERROR"
+   		//,"STANDARD_OUT"
+	}
+	/*filter {
+		includeTestsMatching "com.primeiro.spring.controller.*"
+	}*/
 }

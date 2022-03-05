@@ -1,6 +1,6 @@
 package com.primeiro.spring.service;
 
-import java.lang.Iterable;
+import java.util.List;
 
 import com.primeiro.spring.model.Address;
 
@@ -8,7 +8,7 @@ public interface IAddressService {
 
 	Address createAddress(Address address);
 	
-	Iterable<Address> getAllAdress();
+	List<Address> getAllAdress();
 
 	Address getAddressByCep(String cep);
 }

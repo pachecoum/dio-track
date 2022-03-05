@@ -1,5 +1,6 @@
 package com.primeiro.spring.dto;
 
+import java.util.Objects;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,6 +23,28 @@ public class AddressWithUsersDTO extends AddressDTO {
 
     @JsonProperty("users")
 	private List<UserDTO> users;
+
+	@Override
+	public int hashCode() {
+		int hash = super.hashCode();
+		hash = 31 * hash + (users == null? 0 : users.hashCode());
+
+		// or
+		hash *= Objects.hash(super.hashCode(), users.hashCode());
+
+		return hash;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (o == this) return true;
+		if (o == null) return false;
+		if (this.getClass() != o.getClass()) return false;
+
+		AddressWithUsersDTO address = (AddressWithUsersDTO)o;
+    
+		return super.equals(o) && users.containsAll(address.getUsers());
+	}
 
 	/**
 	 * Get users 

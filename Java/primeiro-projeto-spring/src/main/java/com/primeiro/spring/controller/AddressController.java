@@ -1,7 +1,6 @@
 package com.primeiro.spring.controller;
 
 import java.util.List;
-import java.util.stream.StreamSupport;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
@@ -73,7 +72,7 @@ public class AddressController {
 	@GetMapping("/")
 	@ResponseStatus(HttpStatus.OK)
 	public List<AddressWithUsersDTO> getAllAddresses() {
-		return StreamSupport.stream(addressService.getAllAdress().spliterator(), false)
+		return addressService.getAllAdress().stream()
 				.map(AddressWithUsersDTO::fromEntity).collect(Collectors.toList());
 	}
 }

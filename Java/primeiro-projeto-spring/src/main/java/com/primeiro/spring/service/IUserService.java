@@ -1,8 +1,9 @@
 package com.primeiro.spring.service;
 
-import java.lang.Iterable;
+import java.util.List;
 
 import com.primeiro.spring.model.User;
+import com.primeiro.spring.exception.NotImplementedException;
 
 public interface IUserService {
 
@@ -10,11 +11,13 @@ public interface IUserService {
 
 	User updateUser(User user);
 	
-	Iterable<User> getAllUser();
+	List<User> getAllUser();
 
 	User getUserById(Long id);
 
-	User getUserByUsername(Long username);
+	default User getUserByUsername(String username){
+		throw new NotImplementedException();
+	}
 
 	void deleteUserById(Long id);
 }

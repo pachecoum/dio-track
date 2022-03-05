@@ -1,5 +1,6 @@
 package com.primeiro.spring.dto;
 
+import java.util.Objects;
 
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.NotNull;
@@ -22,9 +23,9 @@ public class AddressDTO {
 	@NotNull(message = "Cep can not been null")
 	private String cep;
 
-    @JsonProperty("logradouro")
 	//@NotNull(message = "The field can't be null")
 	//@NotBlank(message = "The field can't be blank")
+    @JsonProperty("logradouro")
 	private String logradouro;
 
 	@JsonProperty("complemento")
@@ -41,6 +42,36 @@ public class AddressDTO {
 
 	@JsonProperty("ddd")
 	private String ddd;
+
+	@Override
+	public int hashCode() {
+		int hash = 7;
+		hash = 31 * hash + (cep == null? 0 : cep.hashCode());
+		hash = 31 * hash + (logradouro == null? 0 : logradouro.hashCode());
+		hash = 31 * hash + (complemento == null? 0 : complemento.hashCode());
+		hash = 31 * hash + (bairro == null? 0 : bairro.hashCode());
+		hash = 31 * hash + (localidade == null? 0 : localidade.hashCode());
+		hash = 31 * hash + (uf == null? 0 : uf.hashCode());
+		hash = 31 * hash + (ddd == null? 0 : ddd.hashCode());
+
+		// or
+		hash *= Objects.hash(cep, logradouro, complemento, bairro, localidade, uf, ddd);
+
+		return hash;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (o == this) return true;
+		if (o == null) return false;
+		if (o instanceof AddressDTO) return false;
+
+		AddressDTO address = (AddressDTO)o;
+		return cep.equals(address.getCep()) && logradouro.equals(address.getLogradouro()) 
+			&& complemento.equals(address.getComplemento()) && bairro.equals(address.getBairro())
+			&& localidade.equals(address.getLocalidade()) && uf.equals(address.getUf())
+			&& ddd.equals(address.getDdd());
+	}
 
 	public static AddressDTO fromEntity(Address address) {
 		AddressDTO addressDto = modelMapper.map(address, AddressDTO.class);
